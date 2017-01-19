@@ -96,7 +96,7 @@ abstract class Control extends EventEmitter {
     private _domListeners: { [eventName: string]: EventListener } = {};
     
     protected _bindDomEvents () {
-        ['click', 'mousedown', 'mouseup', 'mouseover', 'mouseleave'].forEach(
+        ['click', 'mousedown', 'mouseup', 'mouseover', 'mouseleave', 'contextmenu'].forEach(
             (eventName) => {
                 let listener = this.emit.bind(this, _.capitalize(eventName));
                 this._domNode.addEventListener(eventName, listener);

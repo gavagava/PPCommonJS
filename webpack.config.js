@@ -2,6 +2,7 @@
 
 const path = require('path');
 const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     cache: true,
@@ -22,11 +23,11 @@ module.exports = {
             use: [{
                 loader: 'babel-loader',
                 options: {
-                    presets: ['es2015', 'es2016']
+                    presets: ['es2016', 'es2015']
                 }
             }, 'ts-loader']
         }, {
-            test: '\.js$',
+            test: /\.js$/,
             exclude: /node_modules/,
             use: [{
                 loader: 'babel-loader',
@@ -37,14 +38,10 @@ module.exports = {
         }, {
             test: /\.css$/,
             exclude: /node_modules/,
-            use: ['style-loader',
-                {
-                    loader: 'css-loader',
-                    options: {
-                        importLoaders: 1
-                    }
-                },
-                'postcss-loader']
+            loader: ExtractTextPlugin.extract({
+                    fallbackLoader: 'style-loader',
+                    loader: 'css-loader'
+                })            
         }]
     },
     resolve: {
@@ -53,6 +50,12 @@ module.exports = {
     plugins: [new webpack.optimize.CommonsChunkPlugin({
         names: ['Vendor', 'Babel'],
         minChunks: Infinity
-    })],
+    }), 
+    new ExtractTextPlugin({
+        filename: 'PP.[name].css',
+        disable: false, 
+        allChunks: true
+    })
+    ],
     devtool: 'source-map'
 };

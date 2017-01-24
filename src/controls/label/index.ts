@@ -1,3 +1,4 @@
+import './Label.css';
 import Label from './Label';
 
 export default Label;
